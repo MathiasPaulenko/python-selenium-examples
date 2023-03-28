@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# PyCharm
+.idea
+
+# Selenium examples
+/resources/.wdm
+/resources/chromedriver.exe
