@@ -1,14 +1,11 @@
+# -*- coding: utf-8 -*-
 """
-These allow you to execute custom actions in every time specific Selenium commands are sent
+Listeners allow executing custom actions before and after WebDriver commands.
 
-In Python and Selenium 4 there are two Listeners:
-    - EventFiringWebDriver:
-    A wrapper around an arbitrary WebDriver instance which supports firing events.
-    - EventFiringWebElement:
-    A wrapper around WebElement instance which supports firing events.
+In Selenium 4 for Python, EventFiringWebDriver wraps a regular driver and
+dispatches callbacks implemented in an AbstractEventListener subclass.
 
-Both Listeners must be passed by parameter an AbstractEventListener subclass and it must be fully or partially
-implemented.
+You can implement only the callbacks you need.
 
 AbstractEventListener has the methods to implement:
     - before_navigate_to
@@ -31,21 +28,19 @@ AbstractEventListener has the methods to implement:
     - after_quit
     - on_exception
 
-These classes can be found at:
+Relevant module:
 selenium/webdriver/support/events.py
-selenium/webdriver/support/abstract_event_listener.py
-selenium/webdriver/support/event_firing_webdriver.py
 """
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.abstract_event_listener import AbstractEventListener
-from selenium.webdriver.support.event_firing_webdriver import EventFiringWebDriver, EventFiringWebElement
-
+from selenium.webdriver.support.events import AbstractEventListener, EventFiringWebDriver
+from webdriver_manager.chrome import ChromeDriverManager
 
 # AbstractEventListener subclass declaration
 class WebDriverListener(AbstractEventListener):
     """
-    A subclass of AbstractEventListener where all or part of its methods can be implemented.
+    Minimal custom listener with a few navigation/click/quit hooks.
     """
 
     def before_navigate_to(self, url, driver):
@@ -73,22 +68,21 @@ class WebDriverListener(AbstractEventListener):
         print(f"After web element click: {element}")
 
 
-# Use of EventFiringWebElement and EventFiringWebElement
+# Use of EventFiringWebDriver
 def listeners():
     """
-    Configuring and using the Selenium 4 EventFiringWebElement and EventFiringWebElement listener events.
+    Configuring and using Selenium 4 EventFiringWebDriver listener events.
     """
-    # Same as EventFiringWebDriver
-    driver = WebDriver()
+    service = Service(executable_path=ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
     listener_driver = EventFiringWebDriver(driver, WebDriverListener())
     listener_driver.get('https://www.example.com/')
 
-    # EventFiringWebElement declaration
-    web_element = driver.find_element(By.LINK_TEXT, 'More information...')
-    listener_web_element = EventFiringWebElement(web_element, listener_driver)
-    listener_web_element.click()
+    web_element = listener_driver.find_element(By.TAG_NAME, 'body')
+    web_element.click()
     listener_driver.quit()
 
 
 if __name__ == '__main__':
     listeners()
+

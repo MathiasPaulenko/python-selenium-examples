@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Through WebDriver, Selenium supports all major browsers on the market such as Chrome/Chromium, Firefox,
 Internet Explorer, Edge, and Safari. Where possible, WebDriver drives the browser using the browser’s built-in support
@@ -8,10 +9,9 @@ they are not included in the standard Selenium distribution. This section explai
 started with the different browsers.
 
 Four Ways to Use Drivers:
-    1. Selenium Manager (Beta)
-    Selenium Manager helps you to get a working environment to run Selenium out of the box. Beta 1 of Selenium Manager
-    will configure the drivers for Chrome, Firefox, and Edge if they are not found on the PATH. No extra configuration
-    is needed. Future releases of Selenium Manager will eventually even download browsers if necessary.
+    1. Selenium Manager
+    Selenium Manager helps you get a working environment out of the box. In Selenium 4, it can resolve compatible
+    drivers automatically when they are not found on PATH.
 
     2. Driver Management Software
     Most machines automatically update the browser, but the driver does not. To make sure you get the correct driver
@@ -42,14 +42,16 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
+URL = 'https://www.example.com/'
+
 
 # first way to use the driver
 def driver_selenium_manager():
     """
-    Selenium configures the driver itself. still under development.
+    Let Selenium Manager resolve and configure the driver automatically.
     """
     driver = webdriver.Chrome()
-    driver.get('https://www.example.com/')
+    driver.get(URL)
     # do something
     driver.quit()
 
@@ -59,9 +61,9 @@ def driver_management_software():
     """
     Using the webdriver-manager library to manage the automatic download of driver binaries.
     """
-    service = Service(executable_path=ChromeDriverManager(path='../../resources').install())
+    service = Service(executable_path=ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service)
-    driver.get('https://www.example.com/')
+    driver.get(URL)
     # do something
     driver.quit()
 
@@ -75,7 +77,7 @@ def driver_environment_variable():
     os.environ["PATH"] = driver_path + ';' + os.environ["PATH"]
 
     driver = webdriver.Chrome()
-    driver.get('https://www.example.com/')
+    driver.get(URL)
     # do something
     driver.quit()
 
@@ -89,10 +91,11 @@ def driver_hard_code():
     service = Service(executable_path=driver_path)
 
     driver = webdriver.Chrome(service=service)
-    driver.get('https://www.example.com/')
+    driver.get(URL)
     # do something
     driver.quit()
 
 
 if __name__ == '__main__':
     driver_management_software()
+

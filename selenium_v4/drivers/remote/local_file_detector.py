@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 The Local File Detector allows the transfer of files from the client machine to the remote server. For example, if a
 test needs to upload a file to a web application, a remote WebDriver can automatically transfer the file from the local
@@ -12,11 +13,11 @@ from selenium.webdriver.remote.file_detector import LocalFileDetector
 
 def local_file_detector():
     """
-    Configuring the LocalFileDetector object on a remote drive instance.
+    Configure LocalFileDetector on a Selenium 4 Remote WebDriver session.
     """
     chrome_options = webdriver.ChromeOptions()
     driver = webdriver.Remote(
-        command_executor='http://127.0.0.1:4444',
+        command_executor='http://127.0.0.1:4444/wd/hub',
         options=chrome_options
     )
 
@@ -30,3 +31,4 @@ def local_file_detector():
 
 if __name__ == '__main__':
     local_file_detector()
+
