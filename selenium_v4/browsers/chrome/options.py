@@ -3,6 +3,7 @@
 Complete Selenium 4 examples for ChromeOptions.
 
 Reference:
+https://www.selenium.dev/documentation/webdriver/browsers/chrome/
 https://www.selenium.dev/documentation/webdriver/drivers/options/
 
 This module focuses on:
