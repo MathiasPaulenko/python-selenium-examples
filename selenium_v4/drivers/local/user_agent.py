@@ -14,7 +14,7 @@ Customizing it is useful to:
 There are three main approaches in Selenium 4:
     1. Set via browser argument at startup (permanent for the session).
     2. Override with JavaScript at runtime (overrides for the current page).
-    3. Set via experimental option in Chrome/Edge (Chrome DevTools Protocol).
+    3. Set via an experimental option in Chrome/Edge (Chrome DevTools Protocol).
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 EXAMPLE_URL = 'https://www.example.com/'
-
+NAV_USER_AGENT = 'return navigator.userAgent;'
 CUSTOM_USER_AGENT = (
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
     'AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -63,7 +63,7 @@ def chrome_user_agent_argument():
 def chrome_user_agent_experimental():
     """
     Override User-Agent via Chrome experimental option (CDP network conditions).
-    This also applies from session start.
+    This also applies from the session start.
     """
     options = webdriver.ChromeOptions()
     options.add_experimental_option('prefs', {})
@@ -78,7 +78,7 @@ def chrome_user_agent_experimental():
     })
 
     driver.get(EXAMPLE_URL)
-    actual_ua = driver.execute_script('return navigator.userAgent;')
+    actual_ua = driver.execute_script(NAV_USER_AGENT)
     print(f'Chrome User-Agent (CDP): {actual_ua}')
 
     driver.quit()
@@ -103,7 +103,7 @@ def chrome_mobile_user_agent():
     })
 
     driver.get(EXAMPLE_URL)
-    actual_ua = driver.execute_script('return navigator.userAgent;')
+    actual_ua = driver.execute_script(NAV_USER_AGENT)
     print(f'Chrome Mobile User-Agent: {actual_ua}')
 
     driver.quit()
@@ -125,7 +125,7 @@ def chrome_user_agent_runtime_js():
         CUSTOM_USER_AGENT,
     )
 
-    actual_ua = driver.execute_script('return navigator.userAgent;')
+    actual_ua = driver.execute_script(NAV_USER_AGENT)
     print(f'Chrome User-Agent (JS runtime): {actual_ua}')
 
     driver.quit()
@@ -142,7 +142,7 @@ def firefox_user_agent_preference():
     driver = webdriver.Firefox(service=service, options=options)
     driver.get(EXAMPLE_URL)
 
-    actual_ua = driver.execute_script('return navigator.userAgent;')
+    actual_ua = driver.execute_script(NAV_USER_AGENT)
     print(f'Firefox User-Agent (preference): {actual_ua}')
 
     driver.quit()
@@ -159,7 +159,7 @@ def edge_user_agent_argument():
     driver = webdriver.Edge(service=service, options=options)
     driver.get(EXAMPLE_URL)
 
-    actual_ua = driver.execute_script('return navigator.userAgent;')
+    actual_ua = driver.execute_script(NAV_USER_AGENT)
     print(f'Edge User-Agent (argument): {actual_ua}')
 
     driver.quit()
@@ -173,7 +173,7 @@ def read_current_user_agent():
     driver = webdriver.Chrome(service=service)
     driver.get(EXAMPLE_URL)
 
-    default_ua = driver.execute_script('return navigator.userAgent;')
+    default_ua = driver.execute_script(NAV_USER_AGENT)
     print(f'Default Chrome User-Agent: {default_ua}')
 
     driver.quit()
@@ -183,4 +183,3 @@ if __name__ == '__main__':
     read_current_user_agent()
     chrome_user_agent_argument()
     chrome_user_agent_experimental()
-
