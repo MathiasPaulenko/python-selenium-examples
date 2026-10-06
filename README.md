@@ -24,7 +24,7 @@ pip install -r requirements.txt
 | `selenium_v4/actions/` | Actions API — keyboard, mouse, and scroll wheel (ActionChains) |
 | `selenium_v4/bidi/` | BiDirectional protocol — CDP commands, BiDi logging, network, DOM mutations |
 | `selenium_v4/examples/` | Standalone general-purpose examples (reserved) |
-| `resources/` | Static resources (e.g., `chromedriver.exe`) |
+| `resources/` | Static resources for examples (driver binaries, sample upload file) |
 | `output/` | Generated outputs (screenshots, PDFs, logs) |
 
 ## Running Examples
@@ -36,7 +36,7 @@ python selenium_v4/actions/keyboard.py
 python selenium_v4/bidi/logging.py
 ```
 
-Files follow a consistent pattern: a private `_build_driver()` helper, modular single-purpose functions, and an `if __name__ == '__main__':` entry point.
+Browser-driving modules follow a common pattern: a private `_build_driver()` helper, modular single-purpose functions, and an `if __name__ == '__main__':` entry point. Functions requiring extra resources (a running Selenium Grid, env vars, Cast devices, a browser left open on purpose) are defined but commented out in the `__main__` block.
 
 ## Documentation References
 
@@ -45,4 +45,9 @@ Files follow a consistent pattern: a private `_build_driver()` helper, modular s
 - [BiDirectional Protocol](https://www.selenium.dev/documentation/webdriver/bidi/)
 - [Waits](https://www.selenium.dev/documentation/webdriver/waits/)
 - [Web Elements](https://www.selenium.dev/documentation/webdriver/elements/)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+and [SECURITY.md](SECURITY.md). Licensed under [GPL-3.0](LICENSE).
 
