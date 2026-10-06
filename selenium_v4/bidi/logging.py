@@ -21,7 +21,7 @@ from __future__ import annotations
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 LOG_PAGE = 'https://www.selenium.dev/selenium/web/bidi/logEntryAdded.html'
@@ -46,7 +46,8 @@ def add_console_message_handler():
 
     The callback receives a ConsoleLogEntry object with:
         - text       : the logged message string
-        - type       : log level ('log', 'warn', 'error', etc.)
+        - level      : log level ('info', 'warn', 'error', etc.)
+        - method     : console method that produced the entry ('log', ...)
         - args       : list of arguments passed to console
         - timestamp  : when the message was emitted
     """
@@ -95,11 +96,11 @@ def add_javascript_error_handler():
     driver.script.add_javascript_error_handler(callback) registers a function
     that is called whenever an uncaught JavaScript exception occurs on the page.
 
-    The callback receives a JavascriptException object with:
+    The callback receives a JavascriptLogEntry object with:
         - text        : the exception message
-        - type        : always 'javascript'
+        - level       : log level ('error')
         - timestamp   : when the exception was thrown
-        - stack_trace : stack trace information
+        - stacktrace  : stack trace information
     """
     driver = _build_bidi_driver()
     driver.get(LOG_PAGE)

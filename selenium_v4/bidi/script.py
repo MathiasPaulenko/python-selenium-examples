@@ -19,11 +19,10 @@ from __future__ import annotations
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 DYNAMIC_PAGE = 'https://www.selenium.dev/selenium/web/dynamic.html'
-MUTATION_PAGE = 'https://www.selenium.dev/selenium/web/bidi/mutation_observer.html'
 
 
 def _build_bidi_driver() -> webdriver.Chrome:
@@ -43,11 +42,12 @@ def add_dom_mutation_handler():
     driver.script.add_dom_mutation_handler(callback) registers a callback
     that fires whenever a DOM attribute changes on any element in the page.
 
-    The callback receives a DomMutationEvent object with:
-        - element   : the WebElement whose attribute changed
+    The callback receives a DomMutation object with:
+        - element_id      : internal id of the element whose attribute changed
         - attribute_name  : name of the changed attribute
         - current_value   : new value of the attribute
         - old_value       : previous value of the attribute
+        - type            : mutation type ('attributes', 'childList', ...)
 
     Use cases:
         - Observe dynamic CSS class changes (e.g. active, hidden, selected)
@@ -67,7 +67,7 @@ def add_dom_mutation_handler():
 
     for mutation in mutations:
         print(
-            f'Element: {mutation.element.tag_name}, '
+            f'Element id: {mutation.element_id}, '
             f'Attribute: {mutation.attribute_name}, '
             f'Old: {mutation.old_value!r} → New: {mutation.current_value!r}'
         )
@@ -124,3 +124,4 @@ def track_multiple_mutations():
 if __name__ == '__main__':
     add_dom_mutation_handler()
     remove_dom_mutation_handler()
+    track_multiple_mutations()

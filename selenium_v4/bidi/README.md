@@ -10,5 +10,5 @@ WebDriver BiDi provides asynchronous, bidirectional communication with the brows
 |------|--------|
 | `cdp.py` | `execute_cdp_cmd` — set cookie, performance metrics, geolocation override, extra HTTP headers, block URLs, network throttling |
 | `logging.py` | Real-time console message handlers (`add_console_message_handler`) and JavaScript exception handlers (`add_javascript_error_handler`) |
-| `network.py` | Authentication handlers, request/response interception, remove/clear handlers |
+| `network.py` | Auth handlers (`add_auth_handler`), request/response interception and mutation, remove/clear handlers |
 | `script.py` | DOM mutation handlers — observe attribute changes in real time |

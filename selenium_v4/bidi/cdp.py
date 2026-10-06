@@ -56,9 +56,6 @@ def enable_bidi():
     This enables the WebSocket connection required for bidirectional features
     such as logging handlers, network interception, and DOM mutation tracking.
     """
-    options = webdriver.ChromeOptions()
-    options.enable_bidi = True
-
     driver = _build_bidi_driver()
     driver.get(SELENIUM_URL)
     print(f'BiDi session active, title: {driver.title}')
@@ -222,7 +219,10 @@ def emulate_slow_network():
 
 
 if __name__ == '__main__':
+    enable_bidi()
     set_cookie_via_cdp()
     get_performance_metrics()
     override_geolocation()
+    set_extra_http_headers()
     block_urls()
+    emulate_slow_network()

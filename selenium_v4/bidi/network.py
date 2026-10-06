@@ -12,9 +12,9 @@ CDP network interception.
 Requires BiDi to be enabled: options.enable_bidi = True
 
 Topics covered:
-    - Authentication Handlers — handle HTTP Basic Auth prompts automatically
-    - Request Handlers        — intercept and inspect/modify outgoing requests
-    - Response Handlers       — intercept and inspect incoming responses
+    - Authentication Handlers — provide credentials for HTTP Basic Auth automatically
+    - Request Handlers        — intercept and inspect/mutate outgoing requests
+    - Response Handlers       — intercept and inspect/mutate incoming responses
     - Remove Handler          — deregister a specific handler by id
     - Clear Handlers          — remove all registered network handlers
 """
@@ -43,13 +43,17 @@ def _build_bidi_driver() -> webdriver.Chrome:
 
 def add_authentication_handler():
     """
-    driver.network.add_authentication_handler(username, password) automatically
-    provides credentials whenever the server responds with a 401 challenge.
+    driver.network.add_auth_handler(username, password) automatically provides
+    credentials whenever the server responds with a 401 challenge.
     This handles HTTP Basic Authentication without user interaction.
+
+    For finer control, driver.network.add_authentication_handler(url_patterns,
+    callback) invokes a callback that receives an AuthenticationRequest with
+    provide_credentials(username, password) and cancel() methods.
     """
     driver = _build_bidi_driver()
 
-    driver.network.add_authentication_handler('admin', 'admin')
+    driver.network.add_auth_handler('admin', 'admin')
     driver.get(BASIC_AUTH_URL)
 
     print(f'Auth handler active — page title: {driver.title}')
@@ -66,13 +70,16 @@ def add_request_handler():
     driver.network.add_request_handler(callback) intercepts outgoing network
     requests before they are sent to the server.
 
-    The callback receives a RequestData object. Call request.continue_() to
-    allow the request, or request.fail() to abort it.
+    The callback receives a Request object exposing url, method, headers,
+    cookies, and mutation/action methods: set_url(), set_method(),
+    set_headers(), set_cookies(), set_body(), fail() and provide_response().
+    Requests continue automatically after all matching handlers run —
+    no explicit continue call is needed for read-only observers.
 
     Use cases:
         - Logging all outgoing requests
-        - Blocking specific URLs
-        - Modifying request headers before dispatch
+        - Blocking specific URLs with request.fail()
+        - Rewriting requests via the set_* methods
     """
     driver = _build_bidi_driver()
 
@@ -80,7 +87,6 @@ def add_request_handler():
 
     def log_request(request):
         intercepted.append(request.url)
-        request.continue_()
 
     driver.network.add_request_handler(log_request)
     driver.get(SELENIUM_URL)
@@ -99,9 +105,12 @@ def add_request_handler():
 def add_response_handler():
     """
     driver.network.add_response_handler(callback) intercepts incoming server
-    responses before they are processed by the browser.
+    responses at the responseStarted phase.
 
-    The callback receives a ResponseData object with status, headers, and body.
+    The callback receives a Response object exposing url, status, headers,
+    mime_type and mutation methods: set_status(), set_headers(), set_cookies(),
+    set_body(). Responses continue automatically after all handlers run.
+
     Use cases:
         - Verifying response status codes
         - Logging API responses during test execution
@@ -113,8 +122,8 @@ def add_response_handler():
 
     def log_response(response):
         responses.append({
-            'url': response.request.url,
-            'status': response.response.status,
+            'url': response.url,
+            'status': response.status,
         })
 
     driver.network.add_response_handler(log_response)
@@ -142,7 +151,6 @@ def remove_network_handler():
 
     def log_request(request):
         intercepted.append(request.url)
-        request.continue_()
 
     handler_id = driver.network.add_request_handler(log_request)
 
@@ -162,8 +170,9 @@ def remove_network_handler():
 
 def clear_network_handlers():
     """
-    driver.network.clear_handlers() removes all registered request, response,
-    and authentication handlers in one call. Useful for cleanup between tests.
+    driver.network.clear_request_handlers(), clear_response_handlers() and
+    clear_authentication_handlers() remove all registered handlers of each
+    kind. Useful for cleanup between tests.
     """
     driver = _build_bidi_driver()
 
@@ -171,15 +180,15 @@ def clear_network_handlers():
 
     def log_request(request):
         intercepted.append(request.url)
-        request.continue_()
 
     driver.network.add_request_handler(log_request)
-    driver.network.add_authentication_handler('user', 'pass')
+    driver.network.add_auth_handler('user', 'pass')
 
-    driver.network.clear_handlers()
+    driver.network.clear_request_handlers()
+    driver.network.clear_authentication_handlers()
     driver.get(SELENIUM_URL)
 
-    print(f'Requests after clear_handlers: {len(intercepted)}')  # 0
+    print(f'Requests after clearing handlers: {len(intercepted)}')  # 0
 
     driver.quit()
 
@@ -188,3 +197,5 @@ if __name__ == '__main__':
     add_authentication_handler()
     add_request_handler()
     add_response_handler()
+    remove_network_handler()
+    clear_network_handlers()
