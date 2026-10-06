@@ -14,7 +14,7 @@ Customizing it is useful to:
 There are three main approaches in Selenium 4:
     1. Set via browser argument at startup (permanent for the session).
     2. Override with JavaScript at runtime (overrides for the current page).
-    3. Set via an experimental option in Chrome/Edge (Chrome DevTools Protocol).
+    3. Set via Chrome DevTools Protocol (Chrome/Edge only).
 """
 
 from __future__ import annotations
@@ -54,19 +54,19 @@ def chrome_user_agent_argument():
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(EXAMPLE_URL)
 
-    actual_ua = driver.execute_script('return navigator.userAgent;')
+    actual_ua = driver.execute_script(NAV_USER_AGENT)
     print(f'Chrome User-Agent (argument): {actual_ua}')
 
     driver.quit()
 
 
-def chrome_user_agent_experimental():
+def chrome_user_agent_cdp():
     """
-    Override User-Agent via Chrome experimental option (CDP network conditions).
-    This also applies from the session start.
+    Override User-Agent via Chrome DevTools Protocol
+    (Network.setUserAgentOverride). Applies from the moment it is set,
+    including the HTTP request header.
     """
     options = webdriver.ChromeOptions()
-    options.add_experimental_option('prefs', {})
 
     service = ChromeService(executable_path=ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
@@ -182,4 +182,8 @@ def read_current_user_agent():
 if __name__ == '__main__':
     read_current_user_agent()
     chrome_user_agent_argument()
-    chrome_user_agent_experimental()
+    chrome_user_agent_cdp()
+    chrome_mobile_user_agent()
+    chrome_user_agent_runtime_js()
+    firefox_user_agent_preference()
+    edge_user_agent_argument()

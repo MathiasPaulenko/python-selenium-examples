@@ -26,10 +26,10 @@ def command_executors():
         page_source = driver.execute(Command.GET_PAGE_SOURCE)
         try:
             browser_log = driver.execute(Command.GET_LOG, {'type': 'browser'})
-        except (Exception,):
+        except Exception:
             browser_log = {'value': 'Browser logs are not available for this driver configuration.'}
 
-        print(f"Current URL: {current_url}")
+        print(f"Current URL: {current_url.get('value')}")
         print(f"Browser Logs: {browser_log}")
         print(f"Page Source length: {len(page_source.get('value', ''))}")
     finally:

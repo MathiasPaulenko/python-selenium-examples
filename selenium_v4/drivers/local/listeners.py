@@ -51,13 +51,25 @@ class WebDriverListener(AbstractEventListener):
         """Action listener after navigating to a url."""
         print(f"After navigate to {url}")
 
+    def before_find(self, by, value, driver) -> None:
+        """Action listener before finding an element."""
+        print(f"Before find: {by}={value}")
+
+    def after_find(self, by, value, driver) -> None:
+        """Action listener after finding an element."""
+        print(f"After find: {by}={value}")
+
+    def on_exception(self, exception, driver) -> None:
+        """Action listener when a command raises an exception."""
+        print(f"Exception raised: {type(exception).__name__}")
+
     def before_quit(self, driver) -> None:
         """Action listener before driver quit"""
-        print("Before close quit")
+        print("Before quit")
 
     def after_quit(self, driver) -> None:
         """Action listener after driver quit"""
-        print("After close quit")
+        print("After quit")
 
     def before_click(self, element, driver) -> None:
         """Action listener before web element click"""

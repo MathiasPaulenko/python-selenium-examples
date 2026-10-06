@@ -35,7 +35,7 @@ Each session timeout is configured with a combination of different timeouts:
     - Script Timeout - Specifies when to interrupt an executing script in a current browsing context.
     The default timeout of 30,000 is imposed when a new session is created by WebDriver.
     - Page Load Timeout - Specifies the time interval in which a web page needs to be loaded in a current browsing
-    context. The default timeout of 300 thousand is imposed when a new session is created by WebDriver. If page load limits a
+    context. The default timeout of 300,000 ms is imposed when a new session is created by WebDriver. If page load limits a
     given/default time frame, the script will be stopped by TimeoutException.
     - Implicit Wait Timeout - This specifies the time to wait for the implicit element location strategy when locating
     elements. The default timeout 0 is imposed when a new session is created by WebDriver.
@@ -79,7 +79,7 @@ def general_capabilities_att():
     options.set_capability('platformName', 'windows')
     options.set_capability('timeouts', {
         'implicit': 4500,
-        'script': 300,
+        'script': 30000,
         'pageLoad': 30000,
     })
     options.set_capability('unhandledPromptBehavior', 'ignore')
@@ -102,7 +102,7 @@ def general_capabilities_dict():
         'acceptInsecureCerts': True,
         'timeouts': {
             'implicit': 4500,
-            'script': 300,
+            'script': 30000,
             'pageLoad': 30000,
         },
         'strictFileInteractability': False,
@@ -129,7 +129,7 @@ def firefox_capabilities_att():
     options.set_capability('platformName', 'windows')
     options.set_capability('timeouts', {
         'implicit': 4500,
-        'script': 300,
+        'script': 30000,
         'pageLoad': 30000,
     })
     options.set_capability('unhandledPromptBehavior', 'ignore')
@@ -152,7 +152,7 @@ def edge_capabilities_att():
     options.set_capability('platformName', 'windows')
     options.set_capability('timeouts', {
         'implicit': 4500,
-        'script': 300,
+        'script': 30000,
         'pageLoad': 30000,
     })
     options.set_capability('unhandledPromptBehavior', 'ignore')
@@ -166,4 +166,7 @@ def edge_capabilities_att():
 
 if __name__ == '__main__':
     general_capabilities_att()
+    general_capabilities_dict()
+    firefox_capabilities_att()
+    edge_capabilities_att()
 

@@ -102,4 +102,7 @@ def edge_proxy_object():
 
 if __name__ == '__main__':
     proxy_object()
+    proxy_capability()
+    firefox_proxy_object()
+    edge_proxy_object()
 

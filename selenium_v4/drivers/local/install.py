@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Through WebDriver, Selenium supports all major browsers on the market such as Chrome/Chromium, Firefox,
-Internet Explorer, Edge, and Safari. Where possible, WebDriver drives the browser using the browser’s built-in support
+Edge, and Safari. Where possible, WebDriver drives the browser using the browser’s built-in support
 for automation.
 
-Since all the driver implementations except for Internet Explorer are provided by the browser vendors themselves,
+Since the driver implementations are provided by the browser vendors themselves,
 they are not included in the standard Selenium distribution. This section explains the basic requirements for getting
 started with the different browsers.
 
@@ -30,19 +30,20 @@ Four Ways to Use Drivers:
     your system, but has the drawback of making the code much less flexible.
 
 Download link for drivers:
-    - Chrome: https://chromedriver.chromium.org/downloads
+    - Chrome: https://googlechromelabs.github.io/chrome-for-testing/
     - Firefox: https://github.com/mozilla/geckodriver/releases
     - Edge: https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
-    - Internet Explorer: https://www.selenium.dev/downloads/
     - Safari: Built in
 """
 import os
+from pathlib import Path
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 URL = 'https://www.example.com/'
+RESOURCES_DIR = Path(__file__).resolve().parents[3] / 'resources'
 
 
 # first way to use the driver
@@ -72,9 +73,9 @@ def driver_management_software():
 def driver_environment_variable():
     """
     Configuring the driver by environment variables.
+    Requires the driver binary to be present in resources/.
     """
-    driver_path = '../../resources'
-    os.environ["PATH"] = driver_path + ';' + os.environ["PATH"]
+    os.environ["PATH"] = str(RESOURCES_DIR) + os.pathsep + os.environ["PATH"]
 
     driver = webdriver.Chrome()
     driver.get(URL)
@@ -86,8 +87,9 @@ def driver_environment_variable():
 def driver_hard_code():
     """
     Configuring the driver hard code the path to the driver.
+    Requires resources/chromedriver.exe to exist (download it manually first).
     """
-    driver_path = '../../resources/chromedriver.exe'
+    driver_path = str(RESOURCES_DIR / 'chromedriver.exe')
     service = Service(executable_path=driver_path)
 
     driver = webdriver.Chrome(service=service)
@@ -97,5 +99,9 @@ def driver_hard_code():
 
 
 if __name__ == '__main__':
+    driver_selenium_manager()
     driver_management_software()
+    # The next two require a manually downloaded driver in resources/:
+    #   driver_environment_variable()
+    #   driver_hard_code()
 

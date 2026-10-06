@@ -9,6 +9,8 @@ With the Service class can be configured:
     - env: (Optional) Mapping of environment variables for the new process, defaults to `os.environ`.
 
 """
+from pathlib import Path
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.edge.service import Service as EdgeService
@@ -19,6 +21,7 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 EXAMPLE_URL = 'https://www.example.com/'
 RETURN_DOC_TITLE = 'return document.title;'
+OUTPUT_DIR = Path(__file__).resolve().parents[3] / 'output'
 
 
 def chrome_service():
@@ -35,10 +38,11 @@ def chrome_service():
     for argument in browser_args:
         options.add_argument(argument)
 
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     service = Service(  # instance of the Service object
         executable_path=ChromeDriverManager().install(),  # path to the driver binary.
         port=16654,
-        log_output='../../output/chrome.log',
+        log_output=str(OUTPUT_DIR / 'chrome.log'),
         service_args=['--append-log'],
     )
     driver = webdriver.Chrome(service=service, options=options)
@@ -63,7 +67,7 @@ def firefox_service():
     service = FirefoxService(
         executable_path=GeckoDriverManager().install(),
         port=16655,
-        log_output='../../output/firefox.log',
+        log_output=str(OUTPUT_DIR / 'firefox.log'),
     )
     driver = webdriver.Firefox(service=service, options=options)
     driver.get(EXAMPLE_URL)
@@ -89,7 +93,7 @@ def edge_service():
     service = EdgeService(
         executable_path=EdgeChromiumDriverManager().install(),
         port=16656,
-        log_output='../../output/edge.log',
+        log_output=str(OUTPUT_DIR / 'edge.log'),
         service_args=['--append-log'],
     )
     driver = webdriver.Edge(service=service, options=options)
@@ -101,4 +105,6 @@ def edge_service():
 
 if __name__ == '__main__':
     chrome_service()
+    firefox_service()
+    edge_service()
 

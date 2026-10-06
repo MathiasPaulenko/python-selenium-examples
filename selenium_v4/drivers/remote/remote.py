@@ -61,4 +61,6 @@ def edge_remote_driver():
 
 if __name__ == '__main__':
     chrome_remote_driver()
+    firefox_remote_driver()
+    edge_remote_driver()
 
