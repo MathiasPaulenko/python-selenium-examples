@@ -134,3 +134,8 @@ dmypy.json
 # Selenium examples
 /resources/.wdm
 /resources/chromedriver.exe
+/resources/upload_example.txt
+
+# Generated example artifacts (screenshots, PDFs, logs)
+/output/*
+!/output/.gitkeep
