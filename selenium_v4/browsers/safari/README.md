@@ -4,6 +4,6 @@
 
 | File | Topics |
 |------|--------|
-| `options.py` | W3C capabilities, `automatic_inspection`, `automatic_profiling`, Safari Technology Preview, proxy, custom vendor capabilities, BiDi enable |
-| `service.py` | SafariDriver service — automatic/manual driver path, custom port, log output, Safari Technology Preview support |
-| `specials.py` | Start basic, headless, attach to running Safari, clean session, Technology Preview diagnostics |
+| `options.py` | W3C capabilities, `automatic_inspection`, `automatic_profiling`, Safari Technology Preview, proxy, custom vendor capabilities |
+| `service.py` | SafariDriver service — automatic/manual driver path, custom port, log output, diagnostics args, Safari Technology Preview support |
+| `specials.py` | Start Safari, diagnostics options (automatic inspection/profiling), Safari Technology Preview, session capabilities |

@@ -132,6 +132,7 @@ def service_log_level():
     Set EdgeDriver log verbosity with --log-level.
     Valid values: ALL, DEBUG, INFO, WARNING, SEVERE, OFF
     """
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     service = Service(
         executable_path=EdgeChromiumDriverManager().install(),
         service_args=['--log-level=DEBUG'],
@@ -207,5 +208,14 @@ def service_custom_env():
 
 if __name__ == '__main__':
     driver_selenium_manager()
+    driver_webdriver_manager()
+    service_custom_port()
     service_log_to_file()
+    service_log_to_stdout()
+    service_log_level()
+    service_append_log()
+    service_readable_log()
+    service_disable_build_check()
+    service_custom_env()
     print(f'Log written to: {OUTPUT_DIR / "msedgedriver.log"}')
+    # Not run by default: driver_explicit_path() — requires a driver binary on PATH

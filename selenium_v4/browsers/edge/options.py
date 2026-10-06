@@ -3,6 +3,7 @@
 Complete Selenium 4 examples for EdgeOptions.
 
 Reference:
+https://www.selenium.dev/documentation/webdriver/browsers/edge/
 https://www.selenium.dev/documentation/webdriver/drivers/options/
 
 This module focuses on:

@@ -29,7 +29,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 EXAMPLE_URL = 'https://www.example.com/'
 OUTPUT_DIR = Path(__file__).parents[3] / 'output'
-GECKODRIVER_LOG = GECKODRIVER_LOG
+GECKODRIVER_LOG = 'geckodriver.log'
 
 
 def _build_driver(service: Service, options: webdriver.FirefoxOptions | None = None) -> webdriver.Firefox:
@@ -181,6 +181,13 @@ def service_custom_env():
 
 if __name__ == '__main__':
     driver_selenium_manager()
+    driver_webdriver_manager()
+    service_custom_port()
     service_log_to_file()
+    service_log_to_stdout()
+    service_log_level()
+    service_log_no_truncate()
+    service_custom_env()
     print(f'Log written to: {OUTPUT_DIR / "geckodriver.log"}')
+    # Not run by default: driver_explicit_path() — requires a driver binary on PATH
 

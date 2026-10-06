@@ -342,6 +342,22 @@ def print_page_to_pdf():
 if __name__ == '__main__':
     start_basic()
     start_headless()
+    start_with_arguments()
+    start_incognito()
+    simulate_slow_network()
+    simulate_offline()
+    set_download_directory()
+    allow_downloads_in_headless()
+    grant_permissions_via_cdp()
+    reset_permissions_via_cdp()
+    set_permissions_via_selenium()
+    get_browser_console_logs()
     list_log_types()
+    override_geolocation()
+    get_performance_metrics()
+    block_resource_urls()
     print_page_to_pdf()
+    # Not run by default:
+    #   start_keep_browser_open() — leaves the browser open intentionally
+    #   list_cast_sinks(), start_tab_mirroring(), stop_casting() — require a Cast device
 

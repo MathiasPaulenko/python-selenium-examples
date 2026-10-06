@@ -12,7 +12,7 @@ Topics covered:
     - Install / uninstall add-ons at runtime (signed xpi, temporary/unsigned)
     - Full page screenshot
     - Contexts (chrome vs content)
-    - Permissions (Selenium set_permissions)
+    - Permissions (permissions.default.* profile preferences)
     - Print page to PDF
 """
 
@@ -243,17 +243,20 @@ def use_content_context():
 # 7. Permissions
 # ---------------------------------------------------------------------------
 
-def set_permissions():
+def set_permissions_via_preferences():
     """
-    Grant or deny standard browser permissions using Selenium's set_permissions API.
-    Supported states: 'granted', 'denied', 'prompt'
+    Control standard browser permissions via Firefox profile preferences.
+    driver.set_permissions() is not supported by geckodriver — permissions
+    are configured instead through permissions.default.* preferences:
+        0 = ask (default), 1 = allow, 2 = block
     """
-    driver = _build_driver()
-    driver.get(EXAMPLE_URL)
+    options = webdriver.FirefoxOptions()
+    options.set_preference('permissions.default.geo', 1)                    # allow geolocation
+    options.set_preference('permissions.default.desktop-notification', 2)   # block notifications
 
-    driver.set_permissions('geolocation', 'granted')
-    driver.set_permissions('notifications', 'denied')
-    print('Permissions updated.')
+    driver = _build_driver(options)
+    driver.get(EXAMPLE_URL)
+    print('Permissions configured via profile preferences.')
 
     driver.quit()
 
@@ -284,6 +287,17 @@ def print_page_to_pdf():
 if __name__ == '__main__':
     start_basic()
     start_headless()
+    start_private()
+    start_with_profile_preferences()
     full_page_screenshot()
+    use_chrome_context()
+    use_content_context()
+    set_permissions_via_preferences()
     print_page_to_pdf()
+    # Not run by default:
+    #   start_keep_browser_open()     — leaves the browser open intentionally
+    #   start_custom_binary()         — requires FIREFOX_BINARY
+    #   start_with_existing_profile() — requires FIREFOX_PROFILE_DIR
+    #   install_addon()               — requires FIREFOX_ADDON_XPI
+    #   install_unsigned_addon()      — requires FIREFOX_ADDON_DIR
 

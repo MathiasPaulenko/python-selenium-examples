@@ -190,6 +190,14 @@ def service_safari_tp_with_logging():
 if __name__ == '__main__':
     # Safari automation only works on macOS
     driver_builtin_safaridriver()
+    driver_explicit_path()
+    service_custom_port()
+    service_enable_diagnostics()
+    service_log_output()
     service_log_to_file()
+    service_custom_env()
     print(f'SafariDriver log written to: {OUTPUT_DIR / "safaridriver.log"}')
     print('Note: Safari also logs to ~/Library/Logs/com.apple.WebDriver/')
+    # Not run by default:
+    #   service_safari_technology_preview(), service_safari_tp_with_logging()
+    #   — require Safari Technology Preview installed

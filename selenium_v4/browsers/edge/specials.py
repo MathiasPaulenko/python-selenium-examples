@@ -103,8 +103,6 @@ def ie_compatibility_mode():
     Open a specific URL in Internet Explorer compatibility mode within Edge.
     Requires Microsoft Edge with IE mode configured in the OS/Group Policy.
     """
-    options = webdriver.EdgeOptions()
-    options.add_argument('--ie-mode-test')
     ie_options = webdriver.IeOptions()
     ie_options.attach_to_edge_chrome = True
     ie_options.edge_executable_path = os.getenv(
@@ -150,9 +148,9 @@ def set_network_conditions():
     driver.execute_cdp_cmd('Network.enable', {})
     driver.execute_cdp_cmd('Network.emulateNetworkConditions', {
         'offline': False,
-        'downloadThroughput': 500 * 1024 / 8,
+        'downloadThroughput': 500 * 1024 / 8,  # 500 kb/s
         'uploadThroughput': 500 * 1024 / 8,
-        'latency': 20,
+        'latency': 400,                          # ms round-trip
     })
     driver.get(EXAMPLE_URL)
     driver.quit()
@@ -237,5 +235,16 @@ def print_page_to_pdf():
 if __name__ == '__main__':
     start_basic()
     start_headless()
+    start_with_arguments()
+    set_network_conditions()
+    set_download_directory()
+    set_permission()
+    set_geolocation()
     get_performance_metrics()
+    print_page_to_pdf()
+    # Not run by default:
+    #   start_keep_browser_open() — leaves the browser open intentionally
+    #   start_custom_binary()     — requires EDGE_BINARY
+    #   ie_compatibility_mode()   — requires IE mode configured in Windows
+    #   start_webview2()          — requires WEBVIEW2_BROWSER_EXECUTABLE
 

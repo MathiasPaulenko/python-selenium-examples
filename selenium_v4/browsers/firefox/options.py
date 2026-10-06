@@ -3,6 +3,7 @@
 Complete Selenium 4 examples for FirefoxOptions.
 
 Reference:
+https://www.selenium.dev/documentation/webdriver/browsers/firefox/
 https://www.selenium.dev/documentation/webdriver/drivers/options/
 
 This module focuses on:

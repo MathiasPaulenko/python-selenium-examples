@@ -13,10 +13,12 @@ IMPORTANT:
 
 Topics covered:
     - Starting Safari
-    - Safari-specific options
-    - Enable logging
-    - Permissions (geography, notifications)
+    - Safari diagnostics options (automatic inspection / profiling)
     - Safari Technology Preview
+    - Session capabilities
+
+Note: driver.set_permissions() is not supported by safaridriver and is
+therefore not covered here.
 """
 
 from __future__ import annotations
@@ -50,12 +52,13 @@ def start_basic():
 
 def start_with_logging():
     """
-    Enable SafariDriver logging for debugging.
-    Logs are written to ~/Library/Logs/com.apple.WebDriver/.
+    Enable Safari diagnostics for debugging.
+    automatic_inspection opens Web Inspector and automatic_profiling opens
+    the Timelines panel when the session starts.
     """
     options = SafariOptions()
-    options.enable_automatic_inspection = True     # Opens Web Inspector automatically
-    options.enable_automatic_profiling = True      # Opens Timelines panel automatically
+    options.automatic_inspection = True   # Opens Web Inspector automatically
+    options.automatic_profiling = True    # Opens Timelines panel automatically
     driver = _build_driver(options)
     driver.get(EXAMPLE_URL)
     driver.quit()
@@ -80,30 +83,7 @@ def start_safari_technology_preview():
 
 
 # ---------------------------------------------------------------------------
-# 3. Permissions
-# ---------------------------------------------------------------------------
-
-def grant_geolocation_permission():
-    """
-    Grant geolocation permission for the current session.
-    Safari uses set_permissions to control access.
-    """
-    driver = _build_driver()
-    driver.get(EXAMPLE_URL)
-    driver.set_permissions('geolocation', 'prompt')  # 'prompt', 'granted', 'denied'
-    driver.quit()
-
-
-def deny_notifications_permission():
-    """Deny notification permission for the current session."""
-    driver = _build_driver()
-    driver.get(EXAMPLE_URL)
-    driver.set_permissions('notifications', 'denied')
-    driver.quit()
-
-
-# ---------------------------------------------------------------------------
-# 4. Diagnostics and capabilities
+# 3. Diagnostics and capabilities
 # ---------------------------------------------------------------------------
 
 def print_current_capabilities():
@@ -116,5 +96,8 @@ def print_current_capabilities():
 if __name__ == '__main__':
     # Safari automation only works on macOS.
     start_basic()
+    start_with_logging()
     print_current_capabilities()
+    # Not run by default:
+    #   start_safari_technology_preview() — requires Safari Technology Preview installed
 
