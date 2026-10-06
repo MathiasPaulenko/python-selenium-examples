@@ -1,0 +1,54 @@
+name: Bug Report
+description: Report a broken example or wrong behavior
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please include enough detail to reproduce the problem.
+
+  - type: input
+    id: file
+    attributes:
+      label: Affected file(s)
+      description: Path(s) of the example(s) involved
+      placeholder: selenium_v4/bidi/network.py
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead
+      placeholder: Running the script raises AttributeError...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Commands or steps that trigger the problem
+      placeholder: |
+        1. pip install -r requirements.txt
+        2. python selenium_v4/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error output / traceback
+      description: Paste the full traceback or error message
+      render: shell
+
+  - type: input
+    id: versions
+    attributes:
+      label: Environment
+      description: Python, Selenium, browser and driver versions, OS
+      placeholder: Python 3.12, Selenium 4.50, Chrome 120 / chromedriver 120, Windows 11
+    validations:
+      required: true

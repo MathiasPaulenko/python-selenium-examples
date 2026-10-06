@@ -1,0 +1,39 @@
+name: Feature Request
+description: Suggest a new example or topic to cover
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: feature
+    attributes:
+      label: What should be covered?
+      description: Describe the Selenium feature or scenario you'd like an example for
+      placeholder: An example showing how to...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area does it belong to?
+      options:
+        - actions
+        - bidi
+        - browsers
+        - drivers/local
+        - drivers/remote
+        - elements
+        - interactions
+        - examples (general)
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: input
+    id: docs-link
+    attributes:
+      label: Relevant documentation
+      description: Link to the official Selenium docs or spec covering this feature
+      placeholder: https://www.selenium.dev/documentation/...
+    validations:
+      required: false

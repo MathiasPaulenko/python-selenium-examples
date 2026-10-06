@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Selenium documentation
+    url: https://www.selenium.dev/documentation/
+    about: Check the official docs first — many questions are answered there.
+  - name: Security reports
+    url: mailto:mathias.paulenko@outlook.com
+    about: Please report security issues privately instead of opening a public issue.
