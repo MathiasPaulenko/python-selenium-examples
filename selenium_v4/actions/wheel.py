@@ -21,6 +21,7 @@ from __future__ import annotations
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -99,8 +100,6 @@ def scroll_from_element_by_amount():
     driver = _build_driver()
     driver.get(SCROLL_PAGE_NESTED)
 
-    from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
-
     iframe = driver.find_element(By.TAG_NAME, 'iframe')
     scroll_origin = ScrollOrigin.from_element(iframe)
 
@@ -128,8 +127,6 @@ def scroll_from_element_with_offset():
     """
     driver = _build_driver()
     driver.get(SCROLL_PAGE_NESTED)
-
-    from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
 
     footer = driver.find_element(By.TAG_NAME, 'footer')
     scroll_origin = ScrollOrigin.from_element(footer, 0, -50)
@@ -160,8 +157,6 @@ def scroll_from_viewport_origin():
     driver = _build_driver()
     driver.get(SCROLL_PAGE)
 
-    from selenium.webdriver.common.actions.wheel_input import ScrollOrigin
-
     scroll_origin = ScrollOrigin.from_viewport(10, 10)
 
     ActionChains(driver) \
@@ -182,4 +177,5 @@ if __name__ == '__main__':
     scroll_to_element()
     scroll_by_given_amount()
     scroll_from_element_by_amount()
+    scroll_from_element_with_offset()
     scroll_from_viewport_origin()

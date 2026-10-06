@@ -222,4 +222,11 @@ def explicit_wait_timeout_handling():
 if __name__ == '__main__':
     explicit_wait_lambda()
     explicit_wait_element_visible()
+    explicit_wait_element_clickable()
     explicit_wait_element_present()
+    explicit_wait_element_invisible()
+    explicit_wait_text_present()
+    explicit_wait_title()
+    explicit_wait_url_contains()
+    explicit_wait_multiple_elements()
+    explicit_wait_timeout_handling()

@@ -190,5 +190,9 @@ def check_no_alert_present():
 
 if __name__ == '__main__':
     handle_alert_accept()
+    handle_alert_text()
+    handle_confirm_accept()
     handle_confirm_dismiss()
     handle_prompt_send_text()
+    handle_prompt_dismiss()
+    check_no_alert_present()

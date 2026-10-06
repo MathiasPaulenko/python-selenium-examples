@@ -76,4 +76,6 @@ def get_title_and_url():
 
 
 if __name__ == '__main__':
+    get_title()
+    get_current_url()
     get_title_and_url()

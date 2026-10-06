@@ -5,14 +5,15 @@ Fluent Waits examples for Selenium 4.
 Reference:
 https://www.selenium.dev/documentation/webdriver/waits/
 
-FluentWait is a customizable explicit wait that gives fine-grained control over:
+"Fluent wait" is a customizable explicit wait that gives fine-grained control over:
     - Total timeout duration
     - Polling interval (how often the condition is checked)
     - Exceptions to ignore during polling
     - Custom timeout message
 
-It is the underlying implementation that WebDriverWait extends.
-Use FluentWait directly when you need more control than WebDriverWait provides.
+In recent Selenium versions the Python WebDriverWait class accepts these
+customizations directly (poll_frequency, ignored_exceptions), so a separate
+FluentWait class is no longer needed in Python.
 
 Covered topics:
     - Basic FluentWait with custom polling and timeout
@@ -209,4 +210,7 @@ def fluent_wait_with_ec():
 if __name__ == '__main__':
     fluent_wait_basic()
     fluent_wait_ignore_exceptions()
+    fluent_wait_custom_message()
+    fluent_wait_action_in_condition()
     fluent_wait_dynamic_element()
+    fluent_wait_with_ec()

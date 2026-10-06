@@ -175,5 +175,8 @@ def leave_frame_parent():
 
 if __name__ == '__main__':
     switch_to_frame_by_element()
+    switch_to_frame_by_element_with_wait()
+    switch_to_frame_by_name_or_id()
     switch_to_frame_by_index()
     leave_frame_default_content()
+    leave_frame_parent()

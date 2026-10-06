@@ -128,9 +128,9 @@ def send_keys_to_textarea():
     Type multiline text into a textarea element.
     """
     driver = _build_driver()
-    driver.get(INPUTS_PAGE)
+    driver.get(DROPDOWN_PAGE)
 
-    textarea = driver.find_element(By.NAME, 'textarea_input')
+    textarea = driver.find_element(By.ID, 'emptyTextArea')
     textarea.send_keys('Line 1\nLine 2\nLine 3')
     print(f'Textarea value: {textarea.get_property("value")}')
 
@@ -226,7 +226,13 @@ def get_all_options():
 
 if __name__ == '__main__':
     click_element()
+    click_link()
+    click_button()
     send_keys_to_input()
     send_keys_with_special_keys()
+    send_keys_to_textarea()
     clear_input()
     select_by_visible_text()
+    select_by_value()
+    select_by_index()
+    get_all_options()

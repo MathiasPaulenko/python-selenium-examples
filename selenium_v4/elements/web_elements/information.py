@@ -227,5 +227,6 @@ if __name__ == '__main__':
     is_selected()
     get_tag_name()
     get_size_and_position()
+    get_css_value()
     get_text_content()
     get_attribute_vs_property()

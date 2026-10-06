@@ -35,7 +35,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 FINDERS_PAGE = 'https://www.selenium.dev/selenium/web/locators_tests/locators.html'
 EXAMPLE_URL = 'https://www.example.com/'
-GOOGLE_URL = 'https://www.google.com/'
 
 
 def _build_driver() -> webdriver.Chrome:
@@ -186,6 +185,10 @@ def get_active_element():
 
 if __name__ == '__main__':
     find_first_element()
-    find_all_elements()
+    find_element_entire_dom()
     find_element_subset_of_dom()
+    find_element_optimized_locator()
+    find_all_elements()
+    get_element_from_collection()
+    find_elements_from_element()
     get_active_element()

@@ -23,6 +23,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
 MOUSE_PAGE = 'https://www.selenium.dev/selenium/web/mouse_interaction.html'
@@ -79,7 +80,7 @@ def release_all_actions():
     actions = ActionChains(driver)
 
     # Start holding Shift
-    actions.key_down('a').perform()
+    actions.key_down(Keys.SHIFT).perform()
 
     # Release all inputs — equivalent to calling reset_actions
     actions.reset_actions()

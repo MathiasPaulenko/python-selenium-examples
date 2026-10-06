@@ -19,7 +19,6 @@ Topics:
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 from selenium import webdriver
@@ -39,10 +38,14 @@ def _build_driver(options: webdriver.ChromeOptions | None = None) -> webdriver.C
 
 
 def _get_upload_file() -> str:
-    """Return absolute path to a file suitable for upload tests."""
-    path = RESOURCES_DIR / 'chromedriver.exe'
+    """Return absolute path to a file suitable for upload tests.
+
+    Creates a small sample text file in resources/ if it does not exist yet,
+    so the examples are self-contained.
+    """
+    path = RESOURCES_DIR / 'upload_example.txt'
     if not path.exists():
-        raise FileNotFoundError(f'Upload test file not found: {path}')
+        path.write_text('Sample file for Selenium file-upload examples.\n')
     return str(path.resolve())
 
 
@@ -175,7 +178,7 @@ def upload_file_remote():
     driver.file_detector = LocalFileDetector()
 
     driver.get(UPLOAD_PAGE)
-    upload_path = os.path.abspath(str(RESOURCES_DIR / 'chromedriver.exe'))
+    upload_path = _get_upload_file()
     file_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
     file_input.send_keys(upload_path)
     driver.find_element(By.ID, 'file-submit').click()
@@ -190,3 +193,6 @@ def upload_file_remote():
 if __name__ == '__main__':
     upload_file_basic()
     upload_and_verify()
+    upload_multiple_files()
+    upload_file_headless()
+    # Not run by default: upload_file_remote() — requires a running Selenium Grid

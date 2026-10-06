@@ -116,3 +116,6 @@ def implicit_wait_reset():
 
 if __name__ == '__main__':
     implicit_wait_via_driver()
+    implicit_wait_via_options()
+    implicit_wait_zero_default()
+    implicit_wait_reset()

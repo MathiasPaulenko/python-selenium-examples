@@ -158,7 +158,7 @@ def delete_all_cookies():
 
 
 # ---------------------------------------------------------------------------
-# 6. Same-site cookie attribute
+# 6. Same-site cookie attribute (Strict, Lax, None)
 # ---------------------------------------------------------------------------
 
 def add_cookie_same_site_strict():
@@ -201,8 +201,34 @@ def add_cookie_same_site_lax():
     driver.quit()
 
 
+def add_cookie_same_site_none():
+    """
+    Add a cookie with SameSite=None.
+    The cookie is sent with all requests, including cross-site ones.
+    Browsers require the 'secure' flag when SameSite=None is used.
+    """
+    driver = _build_driver()
+    driver.get(EXAMPLE_URL)
+
+    driver.add_cookie({
+        'name': 'none_cookie',
+        'value': 'none_value',
+        'sameSite': 'None',
+        'secure': True,
+    })
+    cookie = driver.get_cookie('none_cookie')
+    print(f'SameSite None cookie: {cookie}')
+
+    driver.quit()
+
+
 if __name__ == '__main__':
     add_cookie()
+    add_cookie_with_options()
+    get_named_cookie()
     get_all_cookies()
+    delete_named_cookie()
     delete_all_cookies()
     add_cookie_same_site_strict()
+    add_cookie_same_site_lax()
+    add_cookie_same_site_none()

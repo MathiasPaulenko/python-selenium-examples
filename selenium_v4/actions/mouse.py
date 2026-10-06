@@ -12,8 +12,6 @@ Topics covered:
     - Click and hold
     - Click and release
     - Context click (right-click)
-    - Back click
-    - Forward click
     - Double click
     - Move to element (hover)
     - Move by offset — from element, viewport, current pointer
@@ -26,6 +24,8 @@ from __future__ import annotations
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.actions.action_builder import ActionBuilder
+from selenium.webdriver.common.actions.pointer_input import PointerInput
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -182,16 +182,19 @@ def move_by_offset_from_element():
 def move_by_offset_from_viewport():
     """
     Move the mouse to an absolute position measured from the top-left
-    corner of the viewport. Uses the low-level ActionChains.move_by_offset()
-    after an initial move_to_element to a known position.
+    corner of the viewport.
+
+    ActionChains.move_by_offset() is relative to the current pointer position;
+    to target absolute viewport coordinates, use the low-level ActionBuilder
+    with a PointerInput whose origin is 'viewport'.
     """
     driver = _build_driver()
     driver.get(MOUSE_PAGE)
 
-    # Move to absolute viewport coordinates (8, 12) via JS scroll + offset
-    ActionChains(driver) \
-        .move_by_offset(8, 12) \
-        .perform()
+    pointer = PointerInput('mouse', 'mouse')
+    actions = ActionBuilder(driver, mouse=pointer)
+    actions.pointer_action.create_pointer_move(duration=0, x=8, y=12, origin='viewport')
+    actions.perform()
 
     location = driver.find_element(By.ID, 'absolute-location').text
     print(f'move from viewport — absolute location: {location}')
@@ -284,5 +287,8 @@ if __name__ == '__main__':
     context_click()
     double_click()
     move_to_element()
+    move_by_offset_from_element()
+    move_by_offset_from_viewport()
+    move_by_offset_from_current_pointer()
     drag_and_drop()
     drag_and_drop_by_offset()

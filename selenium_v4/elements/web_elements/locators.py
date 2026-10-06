@@ -173,13 +173,14 @@ def locate_by_xpath():
 def relative_locator_above():
     """
     locate_with().above() — find an element that is spatially above another element.
+    The page contains stacked paragraphs (#above, #mid, #below).
     """
     driver = _build_driver()
     driver.get(RELATIVE_PAGE)
 
-    email_locator = locate_with(By.TAG_NAME, 'input').above({By.ID: 'password'})
-    email_field = driver.find_element(email_locator)
-    print(f'above() → tag: {email_field.tag_name}')
+    locator = locate_with(By.TAG_NAME, 'p').above({By.ID: 'mid'})
+    element = driver.find_element(locator)
+    print(f'above(#mid) → id: {element.get_attribute("id")}, text: {element.text}')
 
     driver.quit()
 
@@ -191,9 +192,9 @@ def relative_locator_below():
     driver = _build_driver()
     driver.get(RELATIVE_PAGE)
 
-    password_locator = locate_with(By.TAG_NAME, 'input').below({By.ID: 'email'})
-    password_field = driver.find_element(password_locator)
-    print(f'below() → tag: {password_field.tag_name}')
+    locator = locate_with(By.TAG_NAME, 'p').below({By.ID: 'above'})
+    element = driver.find_element(locator)
+    print(f'below(#above) → id: {element.get_attribute("id")}, text: {element.text}')
 
     driver.quit()
 
@@ -201,13 +202,14 @@ def relative_locator_below():
 def relative_locator_to_left_of():
     """
     locate_with().to_left_of() — find an element that is spatially to the left of another.
+    The page contains a 3x3 table (#topLeft .. #bottomRight).
     """
     driver = _build_driver()
     driver.get(RELATIVE_PAGE)
 
-    cancel_locator = locate_with(By.TAG_NAME, 'button').to_left_of({By.ID: 'submit'})
-    cancel_btn = driver.find_element(cancel_locator)
-    print(f'to_left_of() → text: {cancel_btn.text}')
+    locator = locate_with(By.TAG_NAME, 'td').to_left_of({By.ID: 'center'})
+    element = driver.find_element(locator)
+    print(f'to_left_of(#center) → id: {element.get_attribute("id")}, text: {element.text}')
 
     driver.quit()
 
@@ -219,9 +221,9 @@ def relative_locator_to_right_of():
     driver = _build_driver()
     driver.get(RELATIVE_PAGE)
 
-    submit_locator = locate_with(By.TAG_NAME, 'button').to_right_of({By.ID: 'cancel'})
-    submit_btn = driver.find_element(submit_locator)
-    print(f'to_right_of() → text: {submit_btn.text}')
+    locator = locate_with(By.TAG_NAME, 'td').to_right_of({By.ID: 'center'})
+    element = driver.find_element(locator)
+    print(f'to_right_of(#center) → id: {element.get_attribute("id")}, text: {element.text}')
 
     driver.quit()
 
@@ -229,13 +231,14 @@ def relative_locator_to_right_of():
 def relative_locator_near():
     """
     locate_with().near() — find an element within approximately 50 pixels of another.
+    #rect2 sits right next to #rect1 in the proximity section.
     """
     driver = _build_driver()
     driver.get(RELATIVE_PAGE)
 
-    field_locator = locate_with(By.TAG_NAME, 'input').near({By.ID: 'lbl-email'})
-    field = driver.find_element(field_locator)
-    print(f'near() → tag: {field.tag_name}')
+    locator = locate_with(By.TAG_NAME, 'div').near({By.ID: 'rect1'})
+    element = driver.find_element(locator)
+    print(f'near(#rect1) → id: {element.get_attribute("id")}, text: {element.text[:40]}')
 
     driver.quit()
 
@@ -243,18 +246,18 @@ def relative_locator_near():
 def relative_locator_chained():
     """
     Chain multiple relative locators to further narrow down the element.
-    Finds a button that is both below the email field and to the right of cancel.
+    Finds the cell that is both above #bottom and to the right of #left → #center.
     """
     driver = _build_driver()
     driver.get(RELATIVE_PAGE)
 
-    submit_locator = (
-        locate_with(By.TAG_NAME, 'button')
-        .below({By.ID: 'email'})
-        .to_right_of({By.ID: 'cancel'})
+    locator = (
+        locate_with(By.TAG_NAME, 'td')
+        .above({By.ID: 'bottom'})
+        .to_right_of({By.ID: 'left'})
     )
-    submit_btn = driver.find_element(submit_locator)
-    print(f'chained relative locators → text: {submit_btn.text}')
+    element = driver.find_element(locator)
+    print(f'chained relative locators → id: {element.get_attribute("id")}, text: {element.text}')
 
     driver.quit()
 
@@ -263,4 +266,14 @@ if __name__ == '__main__':
     locate_by_class_name()
     locate_by_css_selector()
     locate_by_id()
+    locate_by_name()
+    locate_by_link_text()
+    locate_by_partial_link_text()
+    locate_by_tag_name()
     locate_by_xpath()
+    relative_locator_above()
+    relative_locator_below()
+    relative_locator_to_left_of()
+    relative_locator_to_right_of()
+    relative_locator_near()
+    relative_locator_chained()

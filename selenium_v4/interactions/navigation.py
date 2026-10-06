@@ -6,7 +6,7 @@ Reference:
 https://www.selenium.dev/documentation/webdriver/interactions/navigation/
 
 Topics covered:
-    - Navigate to URL (driver.get and driver.navigate().to equivalent)
+    - Navigate to URL (driver.get — equivalent to driver.navigate().to() in Java/.NET)
     - Back
     - Forward
     - Refresh
@@ -146,4 +146,9 @@ def full_navigation_flow():
 
 
 if __name__ == '__main__':
+    navigate_to()
+    navigate_to_multiple()
+    navigate_back()
+    navigate_forward()
+    navigate_refresh()
     full_navigation_flow()
